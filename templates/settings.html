@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Settings - Smart Exam Surveillance{% endblock %}
+{% block content %}
+<div class="page-content">
+  <div class="card">
+    <h3>System Settings</h3>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for cat, msg in messages %}
+          <div class="alert {{ cat }}">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
+      <label>Yaw threshold</label>
+      <input name="yaw_threshold" type="number" step="0.01" value="{{ settings.get('yaw_threshold', 0.30) }}">
+
+      <label>Mouth threshold</label>
+      <input name="mouth_threshold" type="number" step="0.01" value="{{ settings.get('mouth_threshold', 0.35) }}">
+
+      <label>Cooldown (seconds)</label>
+      <input name="cooldown" type="number" step="1" value="{{ settings.get('cooldown', 6) }}">
+
+      <button type="submit" class="btn" style="width:160px;margin-top:8px">Save</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

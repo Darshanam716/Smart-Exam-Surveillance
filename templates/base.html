@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>{% block title %}Smart Exam Surveillance{% endblock %}</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">SES</div>
+      <div class="brand-text">Smart Exam Surveillance</div>
+    </div>
+    <nav class="nav">
+      <a class="nav-item {% if request.path == '/' %}active{% endif %}" href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a class="nav-item {% if request.path.startswith('/reports') %}active{% endif %}" href="{{ url_for('reports') }}">Reports</a>
+      <a class="nav-item {% if request.path.startswith('/settings') %}active{% endif %}" href="{{ url_for('settings') }}">Settings</a>
+      <a class="nav-item" href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <small>Signed in as</small>
+      <div class="user-chip">{{ session.get('username','Principal') }}</div>
+    </div>
+  </aside>
+
+  <div class="page">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

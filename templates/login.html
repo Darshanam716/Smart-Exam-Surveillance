@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Principal Login</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-soft">
+  <main class="center-screen">
+    <div class="card glass login-card">
+      <div class="login-brand">
+        <div class="logo-small">SES</div>
+        <h2>Principal Login</h2>
+      </div>
+
+      {% if error %}
+      <div class="alert error">{{ error }}</div>
+      {% endif %}
+
+      <form method="POST" class="login-form">
+        <label class="label">Username</label>
+        <input name="username" type="text" required autocomplete="username" class="input"/>
+
+        <label class="label">Password</label>
+        <input name="password" type="password" required autocomplete="current-password" class="input"/>
+
+        <button class="btn-primary" type="submit">Login</button>
+      </form>
+
+      <div class="login-foot">
+        <small>Secure access for exam administrators</small>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

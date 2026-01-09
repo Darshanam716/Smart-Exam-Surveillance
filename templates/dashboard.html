@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Smart Exam Surveillance{% endblock %}
+{% block content %}
+<header class="topbar">
+  <div class="topbar-left">
+    <h1 class="page-title">Dashboard</h1>
+    <p class="subtitle">Live monitoring and incident overview</p>
+  </div>
+  <div class="topbar-right">
+    <div class="card small stat">
+      <div class="stat-title">Attendance</div>
+      <div class="stat-value">{{ total_attendance }}</div>
+    </div>
+    <div class="card small stat danger">
+      <div class="stat-title">Violations</div>
+      <div class="stat-value">{{ total_violations }}</div>
+    </div>
+  </div>
+</header>
+
+<main class="main-grid">
+  <section class="card live-card">
+    <div class="card-head">
+      <h3>Live Camera</h3>
+      <div class="head-actions">Live</div>
+    </div>
+    <div class="camera-wrap">
+      <img src="{{ url_for('video') }}" class="camera-feed" alt="Live feed">
+    </div>
+  </section>
+
+  <section class="card list-card">
+    <div class="card-head">
+      <h3>Recent Violations</h3>
+      <div class="head-actions small">Latest</div>
+    </div>
+    <div class="list">
+      {% if recent_violations %}
+        {% for v in recent_violations %}
+        <div class="list-item">
+          <div class="left">
+            <div class="usn">{{ v.get('usn','-') }}</div>
+            <div class="meta">{{ v.get('violation','') }}</div>
+          </div>
+          <div class="right">
+            <div class="time">{{ v.get('time','') }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="muted">No recent violations</div>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="card table-card">
+    <div class="card-head">
+      <h3>Attendance Log</h3>
+      <div class="head-actions small">All</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>USN</th><th>Name</th><th>Time</th></tr>
+        </thead>
+        <tbody>
+          {% for a in attendance %}
+          <tr>
+            <td>{{ a.get('usn','') }}</td>
+            <td>{{ a.get('name','') }}</td>
+            <td>{{ a.get('time','') }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="3" class="muted">No attendance records</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card table-card">
+    <div class="card-head">
+      <h3>All Violations</h3>
+      <div class="head-actions small">History</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>USN</th><th>Violation</th><th>Time</th></tr>
+        </thead>
+        <tbody>
+          {% for v in violations %}
+          <tr>
+            <td>{{ v.get('usn','') }}</td>
+            <td>
+              <span class="badge
+                {% if 'Phone' in v.get('violation','') %} phone
+                {% elif 'Talking' in v.get('violation','') %} talking
+                {% elif 'Looking' in v.get('violation','') %} looking
+                {% else %} other
+                {% endif %}">
+                {{ v.get('violation','') }}
+              </span>
+            </td>
+            <td>{{ v.get('time','') }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="3" class="muted">No violations recorded</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+{% endblock %}

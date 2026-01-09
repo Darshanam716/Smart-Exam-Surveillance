@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Reports - Smart Exam Surveillance{% endblock %}
+{% block content %}
+<div class="page-content">
+  <div class="card">
+    <h3>Reports</h3>
+    <p>Generate and download attendance, violations, or a combined PDF report.</p>
+
+    <div class="actions" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <a class="btn" href="{{ url_for('reports_download', type='attendance') }}">Download Attendance CSV</a>
+      <a class="btn" href="{{ url_for('reports_download', type='violations') }}">Download Violations CSV</a>
+      <a class="btn" href="{{ url_for('reports_download', type='pdf') }}">Download PDF Report</a>
+      <a class="btn" href="{{ url_for('reports_download', type='all') }}">Generate All</a>
+    </div>
+
+    {% if files %}
+    <h4 style="margin-top:16px">Generated files</h4>
+    <ul>
+      {% for name, fname in files %}
+        <li><a href="{{ url_for('reports_file', filename=fname) }}">{{ fname }}</a></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
